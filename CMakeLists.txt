@@ -19,5 +19,8 @@ add_subdirectory(modules/libmod_input)
 add_subdirectory(modules/libmod_sound)
 add_subdirectory(modules/libmod_debug)
 
+add_subdirectory(vendor/tmx-tmx_1.2.0)
+add_subdirectory(modules/libmod_tmx)
+
 #tools
 add_subdirectory(tools/moddesc)
