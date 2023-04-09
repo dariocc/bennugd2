@@ -1,4 +1,4 @@
-#include <libtmx.h>
+#include <tmx.h>
 #include <bgddl.h>
 
 #include "xctype.h"

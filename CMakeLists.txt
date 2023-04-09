@@ -18,7 +18,7 @@ add_subdirectory(modules/libmod_misc)
 add_subdirectory(modules/libmod_input)
 add_subdirectory(modules/libmod_sound)
 add_subdirectory(modules/libmod_debug)
-# add_subdirectory(modules/libmod_tmx)
+add_subdirectory(modules/libmod_tmx)
 
 #tools
 add_subdirectory(tools/moddesc)
