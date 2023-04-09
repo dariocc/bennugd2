@@ -1,45 +1,46 @@
+#include <stdlib.h>
+#include <string.h>
 #include <tmx.h>
-#include <bgddl.h>
 
-#include "xctype.h"
 #include "bgddl.h"
+
+#include "files.h"
+#include "xctype.h"
+#include "xstrings.h"
+
 #include "dlvaracc.h"
 
 #include "libmod_tmx.h"
 
-typedef struct {
-    tmx_map *map;
-} tmx_map_handle;
-
-static int tmx_load_map(char *filename) {
-    tmx_map_handle *handle = (tmx_map_handle*)malloc(sizeof(tmx_map_handle));
-    handle->map = tmx_load(filename);
-    if (!handle->map) {
-        free(handle);
+static int64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
+    const char *filename;
+    if ( ! (filename = string_get(params[0])) ) {
+        return 0;
+    }
+    tmx_map *map = tmx_load(filename);
+    if (!map) {
+        tmx_perror("Cannot load map");
         return -1;
     }
-    return (int)handle;
+    return (int64_t)map;
 }
 
-static int tmx_get_map_width(int handle) {
-    tmx_map_handle *map_handle = (tmx_map_handle*)handle;
-    return map_handle->map->width;
+static uint32_t libmod_tmx_get_map_width(INSTANCE * my, int64_t * params) {
+    tmx_map * map = (tmx_map *)params[0];
+    return map->width;
 }
 
-static int tmx_get_map_height(int handle) {
-    tmx_map_handle *map_handle = (tmx_map_handle*)handle;
-    return map_handle->map->height;
+static uint32_t libmod_tmx_get_map_height(INSTANCE * my, int64_t * params) {
+    tmx_map * map = (tmx_map *)params[0];
+    return map->height;
 }
 
-static int tmx_get_map_tileset_count(int handle) {
-    tmx_map_handle *map_handle = (tmx_map_handle*)handle;
-    return map_handle->map->tileset_count;
+static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
+    tmx_map * map = (tmx_map *)params[0];
+    tmx_map_free(map);
 }
 
-static void tmx_unload_map(int handle) {
-    tmx_map_handle *map_handle = (tmx_map_handle*)handle;
-    tmx_map_free(map_handle->map);
-    free(map_handle);
+static void* tex_loader(const char *path) {
 }
 
 void __bgdexport( libmod_tmx, module_initialize )() {
