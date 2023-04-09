@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.16)
 project(bennugd2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
@@ -18,9 +18,7 @@ add_subdirectory(modules/libmod_misc)
 add_subdirectory(modules/libmod_input)
 add_subdirectory(modules/libmod_sound)
 add_subdirectory(modules/libmod_debug)
-
-add_subdirectory(vendor/tmx-tmx_1.2.0)
-add_subdirectory(modules/libmod_tmx)
+# add_subdirectory(modules/libmod_tmx)
 
 #tools
 add_subdirectory(tools/moddesc)
