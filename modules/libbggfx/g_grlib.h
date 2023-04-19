@@ -26,6 +26,8 @@
  *
  */
 
+#include "g_bitmap.h"
+
 #ifndef __G_GRLIB_H
 #define __G_GRLIB_H
 
