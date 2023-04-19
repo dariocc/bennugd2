@@ -15,50 +15,23 @@
 
 #include "libmod_tmx.h"
 
-typedef struct _tex {
+typedef struct tmx_tex_t {
     int64_t graph;
-} TMX_TEX;
+} tmx_tex_t;
 
-
-static int64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
+static intptr_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     const char *filename;
     if ( ! (filename = string_get(params[0])) ) {
         return 0;
     }
+
     tmx_map *map = tmx_load(filename);
     if (!map) {
         tmx_perror("Cannot load map");
         return -1;
     }
-    return (int64_t)map;
-}
 
-static uint32_t libmod_tmx_get_map_width(INSTANCE * my, int64_t * params) {
-    tmx_map * map = (tmx_map *)params[0];
-    return map->width;
-}
-
-static uint32_t libmod_tmx_get_map_height(INSTANCE * my, int64_t * params) {
-    tmx_map * map = (tmx_map *)params[0];
-    return map->height;
-}
-
-static uint32_t libmod_tmx_get_map_tile_width(INSTANCE * my, int64_t * params) {
-    tmx_map * map = (tmx_map *)params[0];
-    return map->tile_width;
-}
-
-static uint32_t libmod_tmx_get_map_tile_height(INSTANCE * my, int64_t * params) {
-    tmx_map * map = (tmx_map *)params[0];
-    return map->tile_height;
-}
-
-static int64_t libmod_tmx_get_map_tile_image(INSTANCE * my, int64_t * params) {
-    tmx_map * map = (tmx_map *)params[0];
-    uint32_t gid = params[1];
-    if (map->tiles[gid]) {
-        return ((TMX_TEX *)map->tiles[gid]->image)->graph;
-    }
+    *( tmx_map *)( intptr_t )(params[1]) = *map;
     return 0;
 }
 
@@ -68,13 +41,13 @@ static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
 }
 
 static void* tex_load(const char *path) {
-    TMX_TEX * tex = malloc(sizeof(TMX_TEX));
+    tmx_tex_t * tex = malloc(sizeof(tmx_tex_t));
     tex->graph = gr_load_img(path);
     return tex;
 }
 
 static void* tex_free(void * handler) {
-    TMX_TEX * tex = (TMX_TEX *)handler;
+    tmx_tex_t * tex = (tmx_tex_t *)handler;
     return (void *) grlib_unload_map(0, tex->graph);
 }
 

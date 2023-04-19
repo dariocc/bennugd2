@@ -17,16 +17,22 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "END\n"
 
     "TYPE TMX_TILEMAP_T\n"
-    "     INT orient=TMX_O_NONE;\n"
-    "     UINT width=0;\n"
-    "     UINT height=0;\n"
-    "     UINT tile_width=0;\n"
-    "     UINT tile_height=0;\n"
-    "     UINT tile_height=0;\n"
-    "     INT renderorder=0;\n"
-    "     TMX_TILESET_LIST_T POINTER ts_head;\n"
-    "     TMX_LAYER_T POINTER ly_head;\n"
-    "     TMX_TILE_T POINTER POINTER tiles;\n"
+    "     INT32 orient=0;\n"
+    "     UINT32 width=0;\n"
+    "     UINT32 height=0;\n"
+    "     UINT32 tile_width=0;\n"
+    "     UINT32 tile_height=0;\n"
+    "     INT32 stagger_index=0;\n"
+    "     INT32 stagger_axis=0;\n"
+    "     INT32 hexsidelength=0;\n"
+    "     UINT32 backgroundcolor=0;\n"
+    "     INT32 renderorder=0;\n"
+    "     INT POINTER properties=0;\n"
+    "     INT POINTER ts_head=0;\n"
+    "     INT POINTER ly_head=0;\n"
+    "     UINT32 tilecount=0;\n"
+    "     INT POINTER POINTER tiles=0;\n"
+    "     INT POINTER userdata=0;\n"
     "END\n"
     ;
 
@@ -54,7 +60,7 @@ DLCONSTANT  __bgdexport( libmod_tmx, constants_def)[] =
     { "TMX_SA_X"                          , TYPE_INT,          SA_X },
     { "TMX_SA_Y"                          , TYPE_INT,          SA_Y },
 
-    // Documented in libtmx but non-existing in sources
+    // Documented in libtmx but non-existing in tmx sources, so they fail to build
     // { "TMX_OA_NONE"                       , TYPE_INT,          OA_NONE },
     // { "TMX_OA_TOP"                        , TYPE_INT,          OA_TOP },
     // { "TMX_OA_LEFT"                       , TYPE_INT,          OA_LEFT },
@@ -89,10 +95,12 @@ DLCONSTANT  __bgdexport( libmod_tmx, constants_def)[] =
     { "TMX_PT_STRING"                     , TYPE_INT       , PT_STRING },
     { "TMX_PT_COLOR"                      , TYPE_INT       , PT_COLOR },
     { "TMX_PT_FILE"                       , TYPE_INT       , PT_FILE },
+
     { "TMX_HA_NONE"                       , TYPE_INT       , HA_NONE },
     { "TMX_HA_LEFT"                       , TYPE_INT       , HA_LEFT },
     { "TMX_HA_CENTER"                     , TYPE_INT       , HA_CENTER },
     { "TMX_HA_RIGHT"                      , TYPE_INT       , HA_RIGHT },
+
     { "TMX_VA_NONE"                       , TYPE_INT       , VA_NONE },
     { "TMX_VA_TOP"                        , TYPE_INT       , VA_TOP },
     { "TMX_VA_CENTER"                     , TYPE_INT       , VA_CENTER },
@@ -107,11 +115,9 @@ DLCONSTANT  __bgdexport( libmod_tmx, constants_def)[] =
 
 DLSYSFUNCS  __bgdexport( libmod_tmx, functions_exports)[] =
 {
-    FUNC( "TMX_LOAD"               , "S"    , TYPE_INT , libmod_tmx_load_map                   ),
-    FUNC( "TMX_UNLOAD"             , "I"    , TYPE_INT , libmod_tmx_unload_map                 ),
-    FUNC( "TMX_GET_MAP_WIDTH"      , "I"    , TYPE_DWORD , libmod_tmx_get_map_width            ),
-    FUNC( "TMX_GET_MAP_HEIGHT"     , "I"    , TYPE_DWORD , libmod_tmx_get_map_height           ),
-    FUNC( 0                 , 0         , 0                , 0                                 )
+    FUNC( "TMX_LOAD"               , "SP"    , TYPE_INT    , libmod_tmx_load_map                   ),
+    FUNC( "TMX_UNLOAD"             , "I"     , TYPE_INT    , libmod_tmx_unload_map                 ),
+    FUNC( 0                        , 0       , 0           , 0                                     )
 };
 
 #endif
