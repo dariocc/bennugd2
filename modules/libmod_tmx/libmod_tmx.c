@@ -7,12 +7,18 @@
 #include "files.h"
 #include "xctype.h"
 #include "xstrings.h"
+#include "g_bitmap.h"
 #include "m_map.h"
 #include "g_grlib.h"
 
 #include "dlvaracc.h"
 
 #include "libmod_tmx.h"
+
+typedef struct _tex {
+    int64_t graph;
+} TMX_TEX;
+
 
 static int64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     const char *filename;
@@ -37,14 +43,29 @@ static uint32_t libmod_tmx_get_map_height(INSTANCE * my, int64_t * params) {
     return map->height;
 }
 
+static uint32_t libmod_tmx_get_map_tile_width(INSTANCE * my, int64_t * params) {
+    tmx_map * map = (tmx_map *)params[0];
+    return map->tile_width;
+}
+
+static uint32_t libmod_tmx_get_map_tile_height(INSTANCE * my, int64_t * params) {
+    tmx_map * map = (tmx_map *)params[0];
+    return map->tile_height;
+}
+
+static int64_t libmod_tmx_get_map_tile_image(INSTANCE * my, int64_t * params) {
+    tmx_map * map = (tmx_map *)params[0];
+    uint32_t gid = params[1];
+    if (map->tiles[gid]) {
+        return ((TMX_TEX *)map->tiles[gid]->image)->graph;
+    }
+    return 0;
+}
+
 static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
     tmx_map * map = (tmx_map *)params[0];
     tmx_map_free(map);
 }
-
-typedef struct _tex {
-    int64_t graph;
-} TMX_TEX;
 
 static void* tex_load(const char *path) {
     TMX_TEX * tex = malloc(sizeof(TMX_TEX));
