@@ -6,49 +6,50 @@ import "libmod_tmx";
 
 process main()
 private
-    int map;
-    int map_width;
+  int map;
+  int map_width;
 begin
 
 #include "../common/init_video.h"
 
-    map = tmx_load("map.tmx");
-    map_width = tmx_get_map_width(map);
+  map = tmx_load("map.tmx");
 
-    write_var(0,160,10,ALIGN_CENTER,map_width);
-    write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
+  write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
 
-
-    while( !key(_ESC) )
-        if ( key(_f) )
-            screen.fullscreen ^= 1;
-            set_mode(SCRW,SCRH);
-            while(key(_f)) frame; end
-        end
-        frame;
+  while( !key(_ESC) )
+    if ( key(_f) )
+      screen.fullscreen ^= 1;
+      set_mode(SCRW,SCRH);
+      while(key(_f)) frame; end
     end
+    frame;
+  end
 end
 
 process render_layer(int map, int layer)
 private
-    int map_width;
-    int map_height;
-    int col, row;
+  int map_width;
+  int map_height;
+  int col, row;
+  int tile_graph;
+  int tile_x;
+  int tile_y;
+  int tile_w;
+  int tile_h;
 begin
+  map_width = tmx_get_map_width(map);
+  map_height = tmx_get_map_height(map);
 
-    for (row=0; row < map_height; row++)
-        for (col=0; col < map_width; col++)
-            gid = get_map_layer_gid(row * map_width + col);
-            if (gid != 0)
-                render_tile(image, x, y, w, h);
-            end
-        end
+  for (row=0; row < map_height; row++)
+    for (col=0; col < map_width; col++)
+      render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
     end
+  end
 end
 
-process render_tile(int image, int x, int y, int w, int h)
+process render_tile(int tile_graph, int tile_x, int tile_y, int tile_w, int tile_h)
 begin
-    loop
-        frame;
-    end
+  loop
+    frame;
+  end
 end
