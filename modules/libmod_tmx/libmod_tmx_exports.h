@@ -7,32 +7,32 @@
 #if defined(__BGDC__) || !defined(__STATIC__)
 
 char * __bgdexport( libmod_tmx, types_def ) =
-    "TYPE TMX_TILESET_LIST_T\n"
+    "TYPE TMX_LAYER_L_T\n"
+    "   INT POINTER guids;\n"
     "END\n"
 
     "TYPE TMX_LAYER_T\n"
-    "END\n"
-
-    "TYPE TMX_TILE_T\n"
+    "   INT32 id=0;\n"
+    "   INT32 visible=0;\n"
+    "   INT32 offsetx=0;\n"
+    "   INT32 offsety=0;\n"
+    "   INT32 type=0;\n"
+    "   INT POINTER content;\n"
+    "   INT POINTER next;\n"
     "END\n"
 
     "TYPE TMX_TILEMAP_T\n"
+    "     UINT32 id=0;\n"
     "     INT32 orient=0;\n"
     "     UINT32 width=0;\n"
     "     UINT32 height=0;\n"
     "     UINT32 tile_width=0;\n"
     "     UINT32 tile_height=0;\n"
+    "     UINT32 tilecount=0;\n"
     "     INT32 stagger_index=0;\n"
     "     INT32 stagger_axis=0;\n"
-    "     INT32 hexsidelength=0;\n"
     "     UINT32 backgroundcolor=0;\n"
     "     INT32 renderorder=0;\n"
-    "     INT POINTER properties=0;\n"
-    "     INT POINTER ts_head=0;\n"
-    "     INT POINTER ly_head=0;\n"
-    "     UINT32 tilecount=0;\n"
-    "     INT POINTER POINTER tiles=0;\n"
-    "     INT POINTER userdata=0;\n"
     "END\n"
     ;
 
@@ -115,9 +115,12 @@ DLCONSTANT  __bgdexport( libmod_tmx, constants_def)[] =
 
 DLSYSFUNCS  __bgdexport( libmod_tmx, functions_exports)[] =
 {
-    FUNC( "TMX_LOAD"               , "SP"    , TYPE_INT    , libmod_tmx_load_map                   ),
-    FUNC( "TMX_UNLOAD"             , "I"     , TYPE_INT    , libmod_tmx_unload_map                 ),
-    FUNC( 0                        , 0       , 0           , 0                                     )
+    FUNC( "TMX_LOAD"               , "SP"    , TYPE_INT          , libmod_tmx_load_map             ),
+    FUNC( "TMX_UNLOAD"             , "I"     , TYPE_INT          , libmod_tmx_unload_map           ),
+    FUNC( "TMX_FIRST_LAYER"        , "IP"    , TYPE_INT          , libmod_tmx_first_layer          ),
+    FUNC( "TMX_NEXT_LAYER"         , "P"     , TYPE_INT          , libmod_tmx_next_layer           ),
+    FUNC( "TMX_L_LAYER"            , "PP"    , TYPE_INT          , libmod_tmx_l_layer              ),
+    FUNC( 0                        , 0       , 0                 , 0                               )
 };
 
 #endif
