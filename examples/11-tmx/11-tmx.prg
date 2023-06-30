@@ -13,7 +13,7 @@ begin
 
 #include "../common/init_video.h"
 
-  say(tmx_load("map.tmx", &tilemap));
+  say("tilemap id: " + itoa(tmx_load("map.tmx", &tilemap)));
   say("tilemap orient: " + itoa(tilemap.orient));
   say("tilemap width: " + itoa(tilemap.width));
   say("tilemap height: " + itoa(tilemap.height));
@@ -48,18 +48,20 @@ begin
   end
 end
 
-/*
-process render_l_layer(tmx_tilemap_t tilemap, tmx_l_layer pointer layer)
+process render_l_layer(tmx_tilemap_t pointer tilemap, tmx_l_layer_t pointer l_layer)
 private
   int row, col;
+  int guid;
 begin
-  for (row=0; row < map.height; row++)
-    for (col=0; col < map.width; col++)
+  for (row=0; row < tilemap.height; row++)
+    for (col=0; col < tilemap.width; col++)
+      guid=itoa(l_layer.guids[row * tilemap.width + tilemap.height]);
+      say("guid: " + guid);
+      // With the guid, get the tile in the tile structure and render it
       // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
     end
   end
 end
-*/
 
 process render_map(tmx_tilemap_t tilemap)
 private
@@ -67,10 +69,16 @@ private
   tmx_layer_t next_layer;
 begin
   tmx_first_layer(tilemap.id, &next_layer);
-  repeat
+  loop
+    say("layer.id: " + itoa(next_layer.id));
+    say("layer.visible: " + itoa(next_layer.visible));
+    say("layer.offsetx: " + itoa(next_layer.offsetx));
+    say("layer.offsety: " + itoa(next_layer.offsety));
+    say("layer.type: " + itoa(next_layer.type));
     switch (next_layer.type)
       case TMX_L_LAYER:
         tmx_as_l_layer(&next_layer, &l_layer);
+        render_l_layer(tilemap, &l_layer);
       end
       case TMX_L_OBJGR:
         // Implement me
@@ -86,6 +94,9 @@ begin
         break;
       end
     end
+    if (next_layer.next==0) 
+      break; 
+    end
     tmx_next_layer(&next_layer);
-  until(next_layer.next==0)
+  end
 end
