@@ -7,7 +7,7 @@
 #if defined(__BGDC__) || !defined(__STATIC__)
 
 char * __bgdexport( libmod_tmx, types_def ) =
-    "TYPE TMX_LAYER_L_T\n"
+    "TYPE TMX_L_LAYER_T\n"
     "   INT POINTER guids;\n"
     "END\n"
 
@@ -119,7 +119,7 @@ DLSYSFUNCS  __bgdexport( libmod_tmx, functions_exports)[] =
     FUNC( "TMX_UNLOAD"             , "I"     , TYPE_INT          , libmod_tmx_unload_map           ),
     FUNC( "TMX_FIRST_LAYER"        , "IP"    , TYPE_INT          , libmod_tmx_first_layer          ),
     FUNC( "TMX_NEXT_LAYER"         , "P"     , TYPE_INT          , libmod_tmx_next_layer           ),
-    FUNC( "TMX_L_LAYER"            , "PP"    , TYPE_INT          , libmod_tmx_l_layer              ),
+    FUNC( "TMX_AS_L_LAYER"         , "PP"    , TYPE_INT          , libmod_tmx_as_l_layer              ),
     FUNC( 0                        , 0       , 0                 , 0                               )
 };
 

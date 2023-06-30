@@ -26,6 +26,8 @@ begin
   say("tilemap renderorder: " + itoa(tilemap.renderorder));
 
   write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
+  
+  render_map(tilemap);
 
   while( !key(_ESC) )
     if ( key(_f) )
@@ -39,7 +41,6 @@ begin
   tmx_unload(tilemap.id);
 end
 
-/*
 process render_tile(int tile_graph, int tile_x, int tile_y, int tile_w, int tile_h)
 begin
   loop
@@ -47,6 +48,7 @@ begin
   end
 end
 
+/*
 process render_l_layer(tmx_tilemap_t tilemap, tmx_l_layer pointer layer)
 private
   int row, col;
@@ -57,25 +59,26 @@ begin
     end
   end
 end
+*/
 
 process render_map(tmx_tilemap_t tilemap)
 private
   tmx_l_layer_t l_layer;
-  tmx_layer next_layer;
+  tmx_layer_t next_layer;
 begin
   tmx_first_layer(tilemap.id, &next_layer);
   repeat
     switch (next_layer.type)
       case TMX_L_LAYER:
-        tmx_l_layer(&next_layer, &l_layer);
+        tmx_as_l_layer(&next_layer, &l_layer);
       end
-      case TMX_L_OBJGRP:
+      case TMX_L_OBJGR:
         // Implement me
       end
       case TMX_L_IMAGE:
         // Implement me
       end
-      case TMX_GROUP:
+      case TMX_L_GROUP:
         // Implement me
       end
       default:
@@ -86,4 +89,3 @@ begin
     tmx_next_layer(&next_layer);
   until(next_layer.next==0)
 end
-*/

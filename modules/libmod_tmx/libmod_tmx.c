@@ -118,7 +118,7 @@ static void libmod_tmx_next_layer(INSTANCE *my, int64_t * params) {
     extract_layer(layer_t, next_layer);
 }
 
-static void libmod_tmx_l_layer(INSTANCE * my, int64_t * params) {
+static void libmod_tmx_as_l_layer(INSTANCE * my, int64_t * params) {
     tmx_layer_t *layer_t = (tmx_layer_t *)( intptr_t )(params[0]);
     tmx_layer_l_t *layer_l_t = (tmx_layer_l_t *)( intptr_t )(params[1]);
     layer_l_t->guids = layer_t->content;
