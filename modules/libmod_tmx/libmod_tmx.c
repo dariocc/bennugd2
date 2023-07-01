@@ -34,7 +34,7 @@ typedef struct tmx_layer_t {
 } tmx_layer_t;
 
 typedef struct tmx_tilemap_t {
-    int64_t id;
+    int32_t id;
     uint32_t orient;
     uint32_t width;
     uint32_t height;

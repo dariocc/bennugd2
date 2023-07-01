@@ -8,7 +8,7 @@
 
 char * __bgdexport( libmod_tmx, types_def ) =
     "TYPE TMX_L_LAYER_T\n"
-    "   INT POINTER guids;\n"
+    "   INT32 POINTER guids;\n"
     "END\n"
 
     "TYPE TMX_LAYER_T\n"
@@ -18,12 +18,12 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "   INT32 offsety=0;\n"
     "   INT32 type=0;\n"
     "   INT POINTER content;\n"
-    "   INT POINTER next;\n"
+    "   INT64 POINTER next;\n"
     "END\n"
 
     "TYPE TMX_TILEMAP_T\n"
-    "     UINT32 id=0;\n"
-    "     INT32 orient=0;\n"
+    "     INT32 id=0;\n"
+    "     UINT32 orient=0;\n"
     "     UINT32 width=0;\n"
     "     UINT32 height=0;\n"
     "     UINT32 tile_width=0;\n"

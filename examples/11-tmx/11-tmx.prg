@@ -13,7 +13,8 @@ begin
 
 #include "../common/init_video.h"
 
-  say("tilemap id: " + itoa(tmx_load("map.tmx", &tilemap)));
+  tmx_load("map.tmx", &tilemap);
+  say("tilemap id: " + itoa(tilemap.id));
   say("tilemap orient: " + itoa(tilemap.orient));
   say("tilemap width: " + itoa(tilemap.width));
   say("tilemap height: " + itoa(tilemap.height));
@@ -27,7 +28,7 @@ begin
 
   write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
   
-  render_map(tilemap);
+  render_map(&tilemap);
 
   while( !key(_ESC) )
     if ( key(_f) )
@@ -48,22 +49,22 @@ begin
   end
 end
 
-process render_l_layer(tmx_tilemap_t pointer tilemap, tmx_l_layer_t pointer l_layer)
+process render_l_layer(tmx_tilemap_t* tilemap, tmx_l_layer_t* l_layer)
 private
   int row, col;
   int guid;
 begin
   for (row=0; row < tilemap.height; row++)
     for (col=0; col < tilemap.width; col++)
-      guid=itoa(l_layer.guids[row * tilemap.width + tilemap.height]);
+      guid=itoa(l_layer.guids[row * tilemap.width + col]);
       say("guid: " + guid);
-      // With the guid, get the tile in the tile structure and render it
+      // Use guid to get the tile in the tile structure of the tilemap and render it
       // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
     end
   end
 end
 
-process render_map(tmx_tilemap_t tilemap)
+process render_map(tmx_tilemap_t* tilemap)
 private
   tmx_l_layer_t l_layer;
   tmx_layer_t next_layer;
