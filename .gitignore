@@ -1,5 +1,14 @@
+## Files built in the build folder 
 build/*
+
+## BennuGD DCB files
 *.dcb
+
+## Games saved files
+
+## Tar files
 save.dat
-README.md
 *.tar*
+
+# Tiled session files
+*.tiled-session
