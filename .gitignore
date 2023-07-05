@@ -11,4 +11,4 @@ save.dat
 *.tar*
 
 # Tiled session files
-*.tiled-session
+tmx.tiled-session
