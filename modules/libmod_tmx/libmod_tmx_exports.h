@@ -18,7 +18,7 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "   INT32 offsety=0;\n"
     "   INT32 type=0;\n"
     "   INT POINTER content;\n"
-    "   INT64 POINTER next;\n"
+    "   INT POINTER next;\n"
     "END\n"
 
     "TYPE TMX_TILEMAP_T\n"

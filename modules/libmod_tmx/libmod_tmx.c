@@ -49,6 +49,45 @@ typedef struct tmx_tilemap_t {
     void *first_Layer;
 } tmx_tilemap_t;
 
+typedef struct tmx_image_t {
+
+} tmx_image_t;
+
+typedef struct tmx_properties_t {
+
+} tmx_properties_t;
+
+typedef struct tmx_tile_t {
+    uint32_t id;
+    struct tmx_tileset_t *tileset;
+    uint32_t ul_x;
+    uint32_t ul_y;
+
+    tmx_image_t *image;
+    void *collision; // implement me
+    uint32_t animation_len; 
+    void *animation; // implement me
+    uint8_t *type;
+    tmx_properties_t *properties;
+    tmx_user_data user_data;
+}tmx_tile_t;
+
+typedef struct tmx_tileset_t {
+    char *name;
+    uint32_t tile_width;
+    uint32_t tile_height;
+    uint32_t spacing;
+    uint32_t margin;
+    int64_t x_offset;
+    int64_t y_offset;
+    uint32_t tilecount;
+    tmx_image_t *image;
+    tmx_user_data user_data;
+    tmx_properties *properties;
+    tmx_tile_t *tiles;
+} tmx_tileset_t;
+
+
 static int64_t tmx_id_count = 0;
 static tmx_map * tmx_maps[9999];
 
