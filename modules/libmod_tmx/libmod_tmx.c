@@ -87,7 +87,6 @@ typedef struct tmx_tileset_t {
     tmx_tile_t *tiles;
 } tmx_tileset_t;
 
-
 static int64_t tmx_id_count = 0;
 static tmx_map * tmx_maps[9999];
 
