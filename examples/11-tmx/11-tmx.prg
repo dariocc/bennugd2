@@ -53,13 +53,17 @@ process render_l_layer(tmx_tilemap_t* tilemap, tmx_l_layer_t* l_layer)
 private
   int row, col;
   int guid;
+  tmx_tile_t tiles;
 begin
+  tmx_map_get_tiles(tilemap.id, &tiles);
   for (row=0; row < tilemap.height; row++)
     for (col=0; col < tilemap.width; col++)
       guid=itoa(l_layer.guids[row * tilemap.width + col]);
       say("guid: " + guid);
-      // Use guid to get the tile in the tile structure of the tilemap and render it
-      // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
+      if (tilemap.tiles[guid] != null)
+        // Use guid to get the tile in the tile structure of the tilemap and render it
+        // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
+      end
     end
   end
 end

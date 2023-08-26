@@ -6,3 +6,8 @@
 * [ ] Can we handle conversion of layer types differently?
 * [ ] Free resources on library unload
 * [ ] Migrate render logic to c?
+* [ ] Decide whether to operate on ids or on a struct. Likely an id makes more sense in BennuGD?
+* [ ] All map related functions should have map prefix: `tmx_map_tiles`, `tmx_map_first_layer`, `tmx_map_next_layer`.
+* [ ] Instead of `first_layer` and `next_lyer`, can we have a `map_iter_layers` that returns null when there are no more layer to iterate?
+* [ ] Remove all fields from types that are not used to retrieve info (all pointers basically)
+* [ ] Expose globally the number of maps loaded? and the aray of maps loaded?

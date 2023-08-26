@@ -15,6 +15,10 @@
 
 #include "libmod_tmx.h"
 
+typedef struct tmx_properties_t {
+    // TODO: Implement me
+} tmx_properties_t;
+
 typedef struct tmx_tex_t {
     int64_t graph;
 } tmx_tex_t;
@@ -33,43 +37,27 @@ typedef struct tmx_layer_t {
     struct tmx_layer_t *next;
 } tmx_layer_t;
 
-typedef struct tmx_tilemap_t {
-    int32_t id;
-    uint32_t orient;
-    uint32_t width;
-    uint32_t height;
-    uint32_t tile_width;
-    uint32_t tile_height;
-    uint32_t tilecount;
-    int32_t stagger_index;
-    int32_t stager_axis;
-    uint32_t backgroundcolor;
-    uint32_t renderorder;
-
-    void *first_Layer;
-} tmx_tilemap_t;
-
 typedef struct tmx_image_t {
-
+    // TODO: Implement me
 } tmx_image_t;
 
-typedef struct tmx_properties_t {
 
-} tmx_properties_t;
+typedef struct tmx_userdata_t {
+    // TODO: Implement me
+} userdata_t;
 
 typedef struct tmx_tile_t {
     uint32_t id;
     struct tmx_tileset_t *tileset;
     uint32_t ul_x;
     uint32_t ul_y;
-
     tmx_image_t *image;
     void *collision; // implement me
     uint32_t animation_len; 
     void *animation; // implement me
     uint8_t *type;
     tmx_properties_t *properties;
-    tmx_user_data user_data;
+    struct tmx_user_data_t *user_data;
 }tmx_tile_t;
 
 typedef struct tmx_tileset_t {
@@ -86,6 +74,22 @@ typedef struct tmx_tileset_t {
     tmx_properties *properties;
     tmx_tile_t *tiles;
 } tmx_tileset_t;
+
+typedef struct tmx_tilemap_t {
+    int32_t id;
+    uint32_t orient;
+    uint32_t width;
+    uint32_t height;
+    uint32_t tile_width;
+    uint32_t tile_height;
+    uint32_t tilecount;
+    int32_t stagger_index;
+    int32_t stager_axis;
+    uint32_t backgroundcolor;
+    uint32_t renderorder;
+    tmx_tile_t **tiles;
+} tmx_tilemap_t;
+
 
 static int64_t tmx_id_count = 0;
 static tmx_map * tmx_maps[9999];
@@ -160,6 +164,18 @@ static void libmod_tmx_as_l_layer(INSTANCE * my, int64_t * params) {
     tmx_layer_t *layer_t = (tmx_layer_t *)( intptr_t )(params[0]);
     tmx_layer_l_t *layer_l_t = (tmx_layer_l_t *)( intptr_t )(params[1]);
     layer_l_t->guids = layer_t->content;
+}
+
+static void libmod_tmx_map_tiles(INSTANCE *my, int64_t *params) {
+    int64_t tilemap_id = params[0];
+    tmx_tile_t *tiles = (tmx_tile_t *)(intptr_t)(params[1]);
+
+    int tilecount = tmx_maps[tilemap_id]->tilecount;
+    tmx_tile **tmx_tiles = tmx_maps[tilemap_id]->tiles;
+    for(int i=0; i<tilecount; i++)
+    {
+        tiles = tmx_tiles[i];
+    }
 }
 
 static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
