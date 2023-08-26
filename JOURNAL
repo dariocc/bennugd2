@@ -3,3 +3,6 @@
 ## TODO
 
 * [ ] Rename typedefs (_t) should be avoided when possible
+* [ ] Can we handle conversion of layer types differently?
+* [ ] Free resources on library unload
+* [ ] Migrate render logic to c?
