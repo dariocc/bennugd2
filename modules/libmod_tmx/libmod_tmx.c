@@ -15,6 +15,10 @@
 
 #include "libmod_tmx.h"
 
+typedef struct tmx_userdata_t {
+    // TODO: Implement me
+} userdata_t;
+
 typedef struct tmx_properties_t {
     // TODO: Implement me
 } tmx_properties_t;
@@ -40,11 +44,6 @@ typedef struct tmx_layer_t {
 typedef struct tmx_image_t {
     // TODO: Implement me
 } tmx_image_t;
-
-
-typedef struct tmx_userdata_t {
-    // TODO: Implement me
-} userdata_t;
 
 typedef struct tmx_tile_t {
     uint32_t id;
@@ -75,6 +74,7 @@ typedef struct tmx_tileset_t {
     tmx_tile_t *tiles;
 } tmx_tileset_t;
 
+// TODO: Rename me to tmx_map_t
 typedef struct tmx_tilemap_t {
     int32_t id;
     uint32_t orient;
@@ -121,6 +121,26 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     tilemap_t->stager_axis = map->stagger_axis;
     tilemap_t->backgroundcolor = map->backgroundcolor;
     tilemap_t->renderorder = map->renderorder;
+
+    // TODO: Free allocated memory
+    tilemap_t->tiles=malloc(sizeof *tilemap_t->tiles * map->height);
+    for (int i = 0; i < map->width; i++) {
+        tilemap_t->tiles[i] = malloc(sizeof **tilemap_t->tiles * map->height);
+        for (int j = 0; j < map->height; j++) {
+            // TODO: Convert to a function
+            tilemap_t->tiles[i][j].id = map->tiles[i][j].id;
+            tilemap_t->tiles[i][j].tileset = map->tiles[i][j].tileset;
+            tilemap_t->tiles[i][j].ul_x = map->tiles[i][j].ul_x;
+            tilemap_t->tiles[i][j].ul_y = map->tiles[i][j].ul_y;
+            // tilemap_t->tiles[i][j].image = map->tiles[i][j].image; // TODO: Implement me
+            // tilemap_t->tiles[i][j].collision = map->tiles[i][j].collision; //TODO implement me
+            tilemap_t->tiles[i][j].animation_len = map->tiles[i][j].animation_len;
+            // tilemap_t->tiles[i][j].animation = map->tiles[i][j].animation; // TODO: Implement me
+            tilemap_t->tiles[i][j].type = map->tiles[i][j].type;
+            // tilemap_t->tiles[i][j].properties = map->tiles[i][j].properties; // TODO: Implement me
+            // tilemap_t->tiles[i][j].user_data = map->tiles[i][j].user_data; // TODO: Implement me
+        }
+    }
 
     return tmx_id_count;
 }
