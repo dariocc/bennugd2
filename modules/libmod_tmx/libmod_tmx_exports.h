@@ -8,7 +8,7 @@
 
 char * __bgdexport( libmod_tmx, types_def ) =
     "TYPE TMX_TILE_T\n"
-    "   INT32 POINTER guids;\n"
+    "   UINT32 id;\n"
     "END\n"
 
     "TYPE TMX_L_LAYER_T\n"
@@ -124,7 +124,6 @@ DLSYSFUNCS  __bgdexport( libmod_tmx, functions_exports)[] =
     FUNC( "TMX_FIRST_LAYER"        , "IP"    , TYPE_INT          , libmod_tmx_first_layer          ),
     FUNC( "TMX_NEXT_LAYER"         , "P"     , TYPE_INT          , libmod_tmx_next_layer           ),
     FUNC( "TMX_AS_L_LAYER"         , "PP"    , TYPE_INT          , libmod_tmx_as_l_layer           ),
-    FUNC( "TMX_MAP_TILES"          , "P"     , TYPE_INT          , libmod_tmx_map_tiles            ),
     FUNC( 0                        , 0       , 0                 , 0                               )
 };
 

@@ -20,7 +20,7 @@ begin
   say("tilemap height: " + itoa(tilemap.height));
   say("tilemap tile_width: " + itoa(tilemap.tile_width));
   say("tilemap tile_height: " + itoa(tilemap.tile_height));
-  say("tilemap tile_count: " + itoa(tilemap.tilecount));
+  say("tilemap tilecount: " + itoa(tilemap.tilecount));
   say("tilemap stagger_index: " + itoa(tilemap.stagger_index));
   say("tilemap stagger_axis: " + itoa(tilemap.stagger_axis));
   say("tilemap backgroundcolor: " + itoa(tilemap.backgroundcolor));
@@ -52,18 +52,29 @@ end
 process render_l_layer(tmx_tilemap_t* tilemap, tmx_l_layer_t* l_layer)
 private
   int row, col;
-  int guid;
+  int gid;
   tmx_tile_t tiles;
 begin
-  tmx_map_get_tiles(tilemap.id, &tiles);
   for (row=0; row < tilemap.height; row++)
     for (col=0; col < tilemap.width; col++)
-      guid=itoa(l_layer.guids[row * tilemap.width + col]);
-      say("guid: " + guid);
-      if (tilemap.tiles[guid] != null)
-        // Use guid to get the tile in the tile structure of the tilemap and render it
-        // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
+      gid=itoa(l_layer.guids[row * tilemap.width + col]); // & TMX_FLIP_BITS_REMOVAL;
+      if (gid != 0)
+        say("gid: " + gid);
+        //say("tilemap[gid].id " + tilemap.tiles[gid].id);
       end
+      //if (gid !=0 && tilemap.tiles[gid] != null)
+        // say(tilemap.tiles[gid].tileset);
+        // say(tilemap.tiles[gid].image);
+        // say(tilemap.tiles[gid].ul_x);
+        // say(tilemap.tiles[gid].ul_y);
+        // if (tilemap.tiles[gid].image)
+        //   // Image from resource
+        // else
+        //   // Image from tileset
+        // end
+        // Use gid to get the tile in the tile structure of the tilemap and render it
+        // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
+      //end
     end
   end
 end
@@ -83,7 +94,7 @@ begin
     switch (next_layer.type)
       case TMX_L_LAYER:
         tmx_as_l_layer(&next_layer, &l_layer);
-        render_l_layer(tilemap, &l_layer);
+        //render_l_layer(tilemap, &l_layer);
       end
       case TMX_L_OBJGR:
         // Implement me

@@ -1,3 +1,4 @@
+#include <stdio.h> // TODO: Replace printf by something else?
 #include <stdlib.h>
 #include <string.h>
 #include <tmx.h>
@@ -47,16 +48,16 @@ typedef struct tmx_image_t {
 
 typedef struct tmx_tile_t {
     uint32_t id;
-    struct tmx_tileset_t *tileset;
-    uint32_t ul_x;
-    uint32_t ul_y;
-    tmx_image_t *image;
-    void *collision; // implement me
-    uint32_t animation_len; 
-    void *animation; // implement me
-    uint8_t *type;
-    tmx_properties_t *properties;
-    struct tmx_user_data_t *user_data;
+    // struct tmx_tileset_t *tileset;
+    // uint32_t ul_x;
+    // uint32_t ul_y;
+    // tmx_image_t *image;
+    // void *collision; // implement me
+    // uint32_t animation_len; 
+    // void *animation; // implement me
+    // char *type;
+    // tmx_properties_t *properties;
+    // struct tmx_user_data_t *user_data;
 }tmx_tile_t;
 
 typedef struct tmx_tileset_t {
@@ -110,6 +111,11 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     tmx_maps[tmx_id_count] = map;
 
     tmx_tilemap_t *tilemap_t=(tmx_tilemap_t *)( intptr_t )(params[1]);
+    if (!tilemap_t) {
+        print("Could not ge parameter 1\n");
+        return 0;
+    }
+
     tilemap_t->id=tmx_id_count;
     tilemap_t->orient = map->orient;
     tilemap_t->width = map->width;
@@ -122,24 +128,22 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     tilemap_t->backgroundcolor = map->backgroundcolor;
     tilemap_t->renderorder = map->renderorder;
 
-    // TODO: Free allocated memory
-    tilemap_t->tiles=malloc(sizeof *tilemap_t->tiles * map->height);
-    for (int i = 0; i < map->width; i++) {
-        tilemap_t->tiles[i] = malloc(sizeof **tilemap_t->tiles * map->height);
-        for (int j = 0; j < map->height; j++) {
-            // TODO: Convert to a function
-            tilemap_t->tiles[i][j].id = map->tiles[i][j].id;
-            tilemap_t->tiles[i][j].tileset = map->tiles[i][j].tileset;
-            tilemap_t->tiles[i][j].ul_x = map->tiles[i][j].ul_x;
-            tilemap_t->tiles[i][j].ul_y = map->tiles[i][j].ul_y;
-            // tilemap_t->tiles[i][j].image = map->tiles[i][j].image; // TODO: Implement me
-            // tilemap_t->tiles[i][j].collision = map->tiles[i][j].collision; //TODO implement me
-            tilemap_t->tiles[i][j].animation_len = map->tiles[i][j].animation_len;
-            // tilemap_t->tiles[i][j].animation = map->tiles[i][j].animation; // TODO: Implement me
-            tilemap_t->tiles[i][j].type = map->tiles[i][j].type;
-            // tilemap_t->tiles[i][j].properties = map->tiles[i][j].properties; // TODO: Implement me
-            // tilemap_t->tiles[i][j].user_data = map->tiles[i][j].user_data; // TODO: Implement me
+    tilemap_t->tiles = malloc(sizeof(tmx_tile_t *) * map->tilecount);
+    // Handle allocation error
+    if (!tilemap_t->tiles) {
+        printf("Could not allocate memory for tiles\n");
+        free(tilemap_t);
+        return 0;
+    }
+
+    for (int i = 0; i < map->tilecount; i++) {
+        printf("Loading tile %d\n", i);
+
+        if (!map->tiles[i]) {
+            continue;
         }
+
+        printf("Tile %d id is", map->tiles[i]->id);
     }
 
     return tmx_id_count;
@@ -184,18 +188,6 @@ static void libmod_tmx_as_l_layer(INSTANCE * my, int64_t * params) {
     tmx_layer_t *layer_t = (tmx_layer_t *)( intptr_t )(params[0]);
     tmx_layer_l_t *layer_l_t = (tmx_layer_l_t *)( intptr_t )(params[1]);
     layer_l_t->guids = layer_t->content;
-}
-
-static void libmod_tmx_map_tiles(INSTANCE *my, int64_t *params) {
-    int64_t tilemap_id = params[0];
-    tmx_tile_t *tiles = (tmx_tile_t *)(intptr_t)(params[1]);
-
-    int tilecount = tmx_maps[tilemap_id]->tilecount;
-    tmx_tile **tmx_tiles = tmx_maps[tilemap_id]->tiles;
-    for(int i=0; i<tilecount; i++)
-    {
-        tiles = tmx_tiles[i];
-    }
 }
 
 static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
