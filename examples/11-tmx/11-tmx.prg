@@ -53,28 +53,28 @@ process render_l_layer(tmx_tilemap_t* tilemap, tmx_l_layer_t* l_layer)
 private
   int row, col;
   int gid;
-  tmx_tile_t tiles;
 begin
   for (row=0; row < tilemap.height; row++)
     for (col=0; col < tilemap.width; col++)
       gid=itoa(l_layer.guids[row * tilemap.width + col]); // & TMX_FLIP_BITS_REMOVAL;
-      if (gid != 0)
+      
+      if (gid != 0 && tilemap.tiles[gid] != 0)
         say("gid: " + gid);
-        //say("tilemap[gid].id " + tilemap.tiles[gid].id);
-      end
-      //if (gid !=0 && tilemap.tiles[gid] != null)
-        // say(tilemap.tiles[gid].tileset);
-        // say(tilemap.tiles[gid].image);
-        // say(tilemap.tiles[gid].ul_x);
-        // say(tilemap.tiles[gid].ul_y);
-        // if (tilemap.tiles[gid].image)
-        //   // Image from resource
-        // else
-        //   // Image from tileset
-        // end
+        say("tilemap[gid].id " + tilemap.tiles[gid].id);
+        say("tilemap[gid].tileset " + tilemap.tiles[gid].tileset);
+        say("tilemap[gid].image " + tilemap.tiles[gid].image);
+        say("tilemap[gid].ul_x " + tilemap.tiles[gid].ul_x);
+        say("tilemap[gid].ul_y " + tilemap.tiles[gid].ul_y);
+        
+        if (tilemap.tiles[gid].image)
+          // Image from resource
+        else
+          // Image from tileset
+        end
+        
         // Use gid to get the tile in the tile structure of the tilemap and render it
-        // render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
-      //end
+        render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
+      end
     end
   end
 end
