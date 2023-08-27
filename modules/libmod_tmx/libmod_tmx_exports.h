@@ -29,19 +29,29 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "   INT POINTER next;\n"
     "END\n"
 
-    "TYPE TMX_TILEMAP_T\n"
-    "     INT32 id=0;\n"
+    "TYPE TMX_MAP_T\n"
     "     UINT32 orient=0;\n"
+
     "     UINT32 width=0;\n"
     "     UINT32 height=0;\n"
     "     UINT32 tile_width=0;\n"
     "     UINT32 tile_height=0;\n"
-    "     UINT32 tilecount=0;\n"
-    "     INT32 stagger_index=0;\n"
-    "     INT32 stagger_axis=0;\n"
+
+    "     UINT32 stagger_index=0;\n"
+    "     UINT32 stagger_axis=0;\n"
+    "     UINT32 hexsidelength=0;\n"
+
     "     UINT32 backgroundcolor=0;\n"
-    "     INT32 renderorder=0;\n"
-    "     TMX_TILE_T POINTER POINTER tiles=0;\n"
+    "     UINT32 renderorder=0;\n"
+
+    "     INT POINTER PROPERTIES;\n"
+    "     INT POINTER TS_HEAD;\n" // TODO: Implement me
+    "     TMX_LAYER_T POINTER LY_HEAD;\n"
+
+    "     UINT32 tilecount=0;\n"
+    "     TMX_TILE_T POINTER POINTER tiles;\n"
+
+    "     INT POINTER USER_DATA;\n" // TODO: Implement me
     "END\n"
     ;
 

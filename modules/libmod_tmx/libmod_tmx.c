@@ -46,54 +46,9 @@ typedef struct tmx_image_t {
     // TODO: Implement me
 } tmx_image_t;
 
-typedef struct tmx_tile_t {
-    uint32_t id;
-    struct tmx_tileset_t *tileset;
-    int32_t ul_x;
-    int32_t ul_y;
-    tmx_image_t *image;
-    // void *collision; // implement me
-    // uint32_t animation_len; 
-    // void *animation; // implement me
-    // char *type;
-    // tmx_properties_t *properties;
-    // struct tmx_user_data_t *user_data;
-}tmx_tile_t;
-
-typedef struct tmx_tileset_t {
-    char *name;
-    uint32_t tile_width;
-    uint32_t tile_height;
-    uint32_t spacing;
-    uint32_t margin;
-    int64_t x_offset;
-    int64_t y_offset;
-    uint32_t tilecount;
-    tmx_image_t *image;
-    tmx_user_data user_data;
-    tmx_properties *properties;
-    tmx_tile_t *tiles;
-} tmx_tileset_t;
-
-// TODO: Rename me to tmx_map_t
-typedef struct tmx_tilemap_t {
-    int32_t id;
-    uint32_t orient;
-    uint32_t width;
-    uint32_t height;
-    uint32_t tile_width;
-    uint32_t tile_height;
-    uint32_t tilecount;
-    int32_t stagger_index;
-    int32_t stager_axis;
-    uint32_t backgroundcolor;
-    uint32_t renderorder;
-    tmx_tile_t **tiles;
-} tmx_tilemap_t;
-
-
-static int64_t tmx_id_count = 0;
-static tmx_map * tmx_maps[9999];
+static const int TMX_MAX_MAP_ID = 1;
+static tmx_last_map_id = 0;
+static tmx_map **tmx_maps; // 1-based array (first element is always ignored)
 
 static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     const char *filename;
@@ -107,54 +62,10 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
         return 0;
     }
 
-    tmx_id_count++;
-    tmx_maps[tmx_id_count] = map;
+    tmx_last_map_id++;
+    tmx_maps[tmx_last_map_id] = map;
 
-    tmx_tilemap_t *tilemap_t=(tmx_tilemap_t *)( intptr_t )(params[1]);
-    if (!tilemap_t) {
-        printf("Could not ge parameter 1\n");
-        return 0;
-    }
-
-    tilemap_t->id=tmx_id_count;
-    tilemap_t->orient = map->orient;
-    tilemap_t->width = map->width;
-    tilemap_t->height = map->height;
-    tilemap_t->tile_width = map->tile_width;
-    tilemap_t->tile_height = map->tile_height;
-    tilemap_t->tilecount = map->tilecount;
-    tilemap_t->stagger_index = map->stagger_index;
-    tilemap_t->stager_axis = map->stagger_axis;
-    tilemap_t->backgroundcolor = map->backgroundcolor;
-    tilemap_t->renderorder = map->renderorder;
-
-    tilemap_t->tiles = calloc(map->tilecount, sizeof(*tilemap_t->tiles));
-
-    // Handle allocation error
-    if (!tilemap_t->tiles) {
-        printf("Could not allocate memory for tiles\n");
-        free(tilemap_t);
-        return 0;
-    }
-
-    for (int i = 0; i < map->tilecount; i++) {
-        printf("Loading tile %d\n", i);
-        tilemap_t->tiles[i] = calloc(1, sizeof(*tilemap_t->tiles[i]));
-
-        if (!map->tiles[i]) {
-            continue;
-        }
-
-        tilemap_t->tiles[i]->id = map->tiles[i]->id;
-        // tilemap_t->tiles[i]->tileset = map->tiles[i]->tileset;
-        tilemap_t->tiles[i]->ul_x = map->tiles[i]->ul_x;
-        tilemap_t->tiles[i]->ul_y = map->tiles[i]->ul_y;
-        // tilemap_t->tiles[i]->image = map->tiles[i]->image;
-
-        printf("Tile id is %d \n", map->tiles[i]->id);
-    }
-
-    return tmx_id_count;
+    return tmx_last_map_id;
 }
 
 static void extract_layer(tmx_layer_t *layer_t, tmx_layer * layer) {
@@ -216,6 +127,7 @@ static void* tex_free(void * handler) {
 
 void __bgdexport( libmod_tmx, module_initialize )() {
     tmx_img_load_func = tex_load;
+    tmx_maps = malloc(sizeof *tmx_maps * TMX_MAX_MAP_ID);
 }
 
 void __bgdexport( libmod_tmx, module_finalize )() {
