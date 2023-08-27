@@ -57,14 +57,17 @@ begin
   for (row=0; row < tilemap.height; row++)
     for (col=0; col < tilemap.width; col++)
       gid=itoa(l_layer.guids[row * tilemap.width + col]); // & TMX_FLIP_BITS_REMOVAL;
+      say("gid: " + gid);
+      say(tilemap.tiles);
+      say(tilemap.tiles[1]);
       
       if (gid != 0 && tilemap.tiles[gid] != 0)
-        say("gid: " + gid);
-        say("tilemap[gid].id " + tilemap.tiles[gid].id);
-        say("tilemap[gid].tileset " + tilemap.tiles[gid].tileset);
-        say("tilemap[gid].image " + tilemap.tiles[gid].image);
-        say("tilemap[gid].ul_x " + tilemap.tiles[gid].ul_x);
-        say("tilemap[gid].ul_y " + tilemap.tiles[gid].ul_y);
+        say("tilemap.tiles[gid].id " + tilemap.tiles[gid].id);
+        say("tilemap.tiles[gid].ul_x " + tilemap.tiles[gid].ul_x);
+        say("tilemap.tiles[gid].ul_y " + tilemap.tiles[gid].ul_y);
+        /*
+        say("tilemap.tiles[gid].tileset " + tilemap.tiles[gid].tileset);
+        say("tilemap.tiles[gid].image " + tilemap.tiles[gid].image);
         
         if (tilemap.tiles[gid].image)
           // Image from resource
@@ -74,6 +77,7 @@ begin
         
         // Use gid to get the tile in the tile structure of the tilemap and render it
         render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
+        */
       end
     end
   end
@@ -94,7 +98,7 @@ begin
     switch (next_layer.type)
       case TMX_L_LAYER:
         tmx_as_l_layer(&next_layer, &l_layer);
-        //render_l_layer(tilemap, &l_layer);
+        render_l_layer(tilemap, &l_layer);
       end
       case TMX_L_OBJGR:
         // Implement me

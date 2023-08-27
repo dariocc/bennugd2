@@ -11,3 +11,19 @@
 * [ ] Instead of `first_layer` and `next_lyer`, can we have a `map_iter_layers` that returns null when there are no more layer to iterate?
 * [ ] Remove all fields from types that are not used to retrieve info (all pointers basically)
 * [ ] Expose globally the number of maps loaded? and the aray of maps loaded?
+
+## 2023-08-27: Tracing bgdi execution to understand issues with library code
+
+When a library contains errors we might get an error message that has nothing to do with the actual problem:
+
+```
+../examples/11-tmx/11-tmx.prg:1: error: Library "libmod_gfx.so" not found ( token error: "libmod_gfx" ).
+```
+
+The actual problem was the use of a `print` function in `libmod_tmx.c`, but `print` function isn't really defined. Somehow the compiler does not complain.
+
+Running `strace bgdi 11-tmx` would give a hint of what was going on:
+
+```
+write(1, "/home/dacucar/Projects/bennugd2/"..., 96/.../bennugd2/build/build-linux-gnu/bin/libmod_tmx.so: undefined symbol: print
+```

@@ -1,4 +1,4 @@
-#include <stdio.h> // TODO: Replace printf by something else?
+#include <stdio.h> // TODO: Remove me
 #include <stdlib.h>
 #include <string.h>
 #include <tmx.h>
@@ -48,10 +48,10 @@ typedef struct tmx_image_t {
 
 typedef struct tmx_tile_t {
     uint32_t id;
-    // struct tmx_tileset_t *tileset;
-    // uint32_t ul_x;
-    // uint32_t ul_y;
-    // tmx_image_t *image;
+    struct tmx_tileset_t *tileset;
+    int32_t ul_x;
+    int32_t ul_y;
+    tmx_image_t *image;
     // void *collision; // implement me
     // uint32_t animation_len; 
     // void *animation; // implement me
@@ -112,7 +112,7 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
 
     tmx_tilemap_t *tilemap_t=(tmx_tilemap_t *)( intptr_t )(params[1]);
     if (!tilemap_t) {
-        print("Could not ge parameter 1\n");
+        printf("Could not ge parameter 1\n");
         return 0;
     }
 
@@ -128,7 +128,8 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     tilemap_t->backgroundcolor = map->backgroundcolor;
     tilemap_t->renderorder = map->renderorder;
 
-    tilemap_t->tiles = malloc(sizeof(tmx_tile_t *) * map->tilecount);
+    tilemap_t->tiles = calloc(map->tilecount, sizeof(*tilemap_t->tiles));
+
     // Handle allocation error
     if (!tilemap_t->tiles) {
         printf("Could not allocate memory for tiles\n");
@@ -138,12 +139,19 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
 
     for (int i = 0; i < map->tilecount; i++) {
         printf("Loading tile %d\n", i);
+        tilemap_t->tiles[i] = calloc(1, sizeof(*tilemap_t->tiles[i]));
 
         if (!map->tiles[i]) {
             continue;
         }
 
-        printf("Tile %d id is", map->tiles[i]->id);
+        tilemap_t->tiles[i]->id = map->tiles[i]->id;
+        // tilemap_t->tiles[i]->tileset = map->tiles[i]->tileset;
+        tilemap_t->tiles[i]->ul_x = map->tiles[i]->ul_x;
+        tilemap_t->tiles[i]->ul_y = map->tiles[i]->ul_y;
+        // tilemap_t->tiles[i]->image = map->tiles[i]->image;
+
+        printf("Tile id is %d \n", map->tiles[i]->id);
     }
 
     return tmx_id_count;

@@ -9,6 +9,10 @@
 char * __bgdexport( libmod_tmx, types_def ) =
     "TYPE TMX_TILE_T\n"
     "   UINT32 id;\n"
+    "   INT POINTER tileset;\n" // TODO: Implement me
+    "   UINT32 ul_x;\n"
+    "   UINT32 ul_y;\n"
+    "   INT POINTER image;\n" // TODO: Implement me
     "END\n"
 
     "TYPE TMX_L_LAYER_T\n"
@@ -37,6 +41,7 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "     INT32 stagger_axis=0;\n"
     "     UINT32 backgroundcolor=0;\n"
     "     INT32 renderorder=0;\n"
+    "     TMX_TILE_T POINTER POINTER tiles=0;\n"
     "END\n"
     ;
 
