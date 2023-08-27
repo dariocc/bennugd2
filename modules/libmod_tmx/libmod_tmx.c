@@ -16,36 +16,6 @@
 
 #include "libmod_tmx.h"
 
-typedef struct tmx_userdata_t {
-    // TODO: Implement me
-} userdata_t;
-
-typedef struct tmx_properties_t {
-    // TODO: Implement me
-} tmx_properties_t;
-
-typedef struct tmx_tex_t {
-    int64_t graph;
-} tmx_tex_t;
-
-typedef struct tmx_layer_l_t {
-    int32_t *guids;
-} tmx_layer_l_t;
-
-typedef struct tmx_layer_t {
-    int32_t id;
-    int32_t visible;
-    int32_t offsetx;
-    int32_t offsety;
-    int32_t type;
-    void *content;
-    struct tmx_layer_t *next;
-} tmx_layer_t;
-
-typedef struct tmx_image_t {
-    // TODO: Implement me
-} tmx_image_t;
-
 static const int TMX_MAX_MAP_ID = 1;
 static tmx_last_map_id = 0;
 static tmx_map **tmx_maps; // 1-based array (first element is always ignored)
