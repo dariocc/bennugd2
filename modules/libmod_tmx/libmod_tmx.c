@@ -22,6 +22,8 @@ static tmx_map **tmx_maps; // 1-based array (first element is always ignored)
 
 static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     const char *filename;
+    tmx_map *result = (tmx_map *)( intptr_t )(params[1]);
+    
     if ( ! (filename = string_get(params[0])) ) {
         return 0;
     }
@@ -35,48 +37,9 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
     tmx_last_map_id++;
     tmx_maps[tmx_last_map_id] = map;
 
+    result = map;
+
     return tmx_last_map_id;
-}
-
-static void extract_layer(tmx_layer_t *layer_t, tmx_layer * layer) {
-    layer_t->id = layer->id;
-    layer_t->offsetx = layer->offsetx;
-    layer_t->offsety = layer->offsety;
-    layer_t->type = layer->type;
-    layer_t->visible = layer->visible;
-    layer_t->next = (void *)layer->next;
-    switch(layer_t->type) {
-        case L_LAYER:
-            layer_t->content = layer->content.gids;
-            break;
-        case L_IMAGE:
-            layer_t->content = layer->content.image;
-            break;
-        case L_OBJGR:
-            layer_t->content = layer->content.objgr;
-            break;
-        case L_GROUP:
-            layer_t->content = layer->content.group_head;
-            break;
-    }
-}
-
-static void libmod_tmx_first_layer(INSTANCE * my, int64_t * params) {
-    int64_t tilemap_id = params[0];
-    tmx_layer_t *layer_t = (tmx_layer_t *)( intptr_t )(params[1]);
-    extract_layer(layer_t, tmx_maps[tilemap_id]->ly_head);
-}
-
-static void libmod_tmx_next_layer(INSTANCE *my, int64_t * params) {
-    tmx_layer_t *layer_t = (tmx_layer_t *)( intptr_t )(params[0]);
-    tmx_layer * next_layer = (tmx_layer *) layer_t->next;
-    extract_layer(layer_t, next_layer);
-}
-
-static void libmod_tmx_as_l_layer(INSTANCE * my, int64_t * params) {
-    tmx_layer_t *layer_t = (tmx_layer_t *)( intptr_t )(params[0]);
-    tmx_layer_l_t *layer_l_t = (tmx_layer_l_t *)( intptr_t )(params[1]);
-    layer_l_t->guids = layer_t->content;
 }
 
 static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
@@ -85,14 +48,13 @@ static int64_t libmod_tmx_unload_map(INSTANCE * my, int64_t * params) {
 }
 
 static void* tex_load(const char *path) {
-    tmx_tex_t * tex = malloc(sizeof(tmx_tex_t));
-    tex->graph = gr_load_img(path);
-    return tex;
+    int64_t *handler = malloc(sizeof(handler));
+    *handler = gr_load_img(path);
+    return handler;
 }
 
 static void* tex_free(void * handler) {
-    tmx_tex_t * tex = (tmx_tex_t *)handler;
-    return (void *) grlib_unload_map(0, tex->graph);
+    return (void *) grlib_unload_map(0, (int64_t *)handler);
 }
 
 void __bgdexport( libmod_tmx, module_initialize )() {

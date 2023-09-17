@@ -16,17 +16,23 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "END\n"
 
     "TYPE TMX_L_LAYER_T\n"
-    "   INT32 POINTER guids;\n"
+    "   UINT32 POINTER guids;\n"
     "END\n"
 
     "TYPE TMX_LAYER_T\n"
     "   INT32 id=0;\n"
+    "   CHAR *name;\n"
+    "   DOUBLE opacity=0;\n"
     "   INT32 visible=0;\n"
     "   INT32 offsetx=0;\n"
     "   INT32 offsety=0;\n"
+
     "   INT32 type=0;\n"
-    "   INT POINTER content;\n"
-    "   INT POINTER next;\n"
+    "   INT POINTER layer_content;\n"
+
+    "   INT POINTER user_data;\n" // TODO: Implement me
+    "   INT POINTER properties;\n" // TODO: Implement me
+    "   TMX_LAYER_T POINTER next;\n"
     "END\n"
 
     "TYPE TMX_MAP_T\n"
@@ -136,9 +142,6 @@ DLSYSFUNCS  __bgdexport( libmod_tmx, functions_exports)[] =
 {
     FUNC( "TMX_LOAD"               , "SP"    , TYPE_INT          , libmod_tmx_load_map             ),
     FUNC( "TMX_UNLOAD"             , "I"     , TYPE_INT          , libmod_tmx_unload_map           ),
-    FUNC( "TMX_FIRST_LAYER"        , "IP"    , TYPE_INT          , libmod_tmx_first_layer          ),
-    FUNC( "TMX_NEXT_LAYER"         , "P"     , TYPE_INT          , libmod_tmx_next_layer           ),
-    FUNC( "TMX_AS_L_LAYER"         , "PP"    , TYPE_INT          , libmod_tmx_as_l_layer           ),
     FUNC( 0                        , 0       , 0                 , 0                               )
 };
 
