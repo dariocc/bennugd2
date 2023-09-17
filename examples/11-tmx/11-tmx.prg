@@ -18,8 +18,8 @@ TYPE TMX_L_LAYER_T
 END
 
 TYPE TMX_LAYER_T
-  INT32 id=0;
-  CHAR *name;
+  INT id=0;
+  CHAR POINTER name;
   DOUBLE opacity=0;
   INT32 visible=0;
   INT32 offsetx=0;
@@ -28,7 +28,7 @@ TYPE TMX_LAYER_T
   INT32 type=0;
   INT POINTER layer_content;
 
-  INT POINTER user_data; // TODO: Implement me
+  INT POINTER user_data;
   INT POINTER properties; // TODO: Implement me
   TMX_LAYER_T POINTER next;
 END
@@ -55,7 +55,7 @@ TYPE TMX_MAP_T
   UINT32 tilecount=0;
   TMX_TILE_T POINTER POINTER tiles;
 
-  INT POINTER USER_DATA;        // TODO: Placeholder
+  INT POINTER USER_DATA;
 END
 
 // ---
@@ -70,20 +70,26 @@ begin
 
   tilemap_id = tmx_load("map.tmx", &tilemap);
   say("tilemap id: " + itoa(tilemap_id));
+  
   say("tilemap orient: " + itoa(tilemap.orient));
+  
   say("tilemap width: " + itoa(tilemap.width));
   say("tilemap height: " + itoa(tilemap.height));
   say("tilemap tile_width: " + itoa(tilemap.tile_width));
   say("tilemap tile_height: " + itoa(tilemap.tile_height));
-  say("tilemap tilecount: " + itoa(tilemap.tilecount));
+  
   say("tilemap stagger_index: " + itoa(tilemap.stagger_index));
   say("tilemap stagger_axis: " + itoa(tilemap.stagger_axis));
+  say("tilemap hexsidelenght: " + itoa(tilemap.hexsidelength));
+  
   say("tilemap backgroundcolor: " + itoa(tilemap.backgroundcolor));
   say("tilemap renderorder: " + itoa(tilemap.renderorder));
+  
+  say("tilemap tilecount: " + itoa(tilemap.tilecount));
 
   write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
   
-  //render_map(&tilemap);
+  render_map(tilemap);
 
   while( !key(_ESC) )
     if ( key(_f) )
@@ -140,16 +146,40 @@ end
 
 process render_map(tmx_map_t* tilemap)
 private
-  tmx_layer_t layer;
+  tmx_layer_t *layer;
 begin
-  layer=*tilemap.ly_head;
+  layer=tilemap.ly_head;
   loop
+    say("Sizes");
+    say("layer.id: " + itoa(sizeof(layer.id)));
+    say("layer.name: " + itoa(sizeof(layer.name)));
+    say("layer.opacity: " + ftoa(sizeof(layer.opacity)));
+    say("layer.visible: " + itoa(sizeof(layer.visible)));
+    say("layer.offsetx: " + itoa(sizeof(layer.offsetx)));
+    say("layer.offsety: " + itoa(sizeof(layer.offsety)));
+    say("layer.type: " + itoa(sizeof(layer.type)));
+
+    say("Values");
     say("layer.id: " + itoa(layer.id));
-    say("layer.visible: " + itoa(layer.visible));
+    say("layer.name: " + "unknown");
+    say("layer.opacity: " + ftoa(layer.opacity));
+    say("layer.visible: " + itoa(layer.visible == 0));
     say("layer.offsetx: " + itoa(layer.offsetx));
     say("layer.offsety: " + itoa(layer.offsety));
     say("layer.type: " + itoa(layer.type));
-    /*
+    say("Address: " + itoa(layer));
+    
+    say("Values");
+    say("tilemap.ly_head.id: " + itoa(tilemap.ly_head.id));
+    say("tilemap.ly_head.name: " + "unknown");
+    say("tilemap.ly_head.opacity: " + ftoa(tilemap.ly_head.opacity));
+    say("tilemap.ly_head.visible: " + itoa(tilemap.ly_head.visible == 0));
+    say("tilemap.ly_head.offsetx: " + itoa(tilemap.ly_head.offsetx));
+    say("tilemap.ly_head.offsety: " + itoa(tilemap.ly_head.offsety));
+    say("tilemap.ly_head.type: " + itoa(tilemap.ly_head.type));
+
+    break; // TODO
+
     switch (layer.type)
       case TMX_L_LAYER:
         // tmx_as_l_layer(&layer, &l_layer);
@@ -172,7 +202,6 @@ begin
     if (layer.next==0) 
       break; 
     end
-    layer=*layer.next;
-    */
+    layer=layer.next;
   end
 end

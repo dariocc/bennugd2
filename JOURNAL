@@ -12,6 +12,13 @@
 * [ ] Remove all fields from types that are not used to retrieve info (all pointers basically)
 * [ ] Expose globally the number of maps loaded? and the aray of maps loaded?
 
+## 2023-09-27: Direct usage of tmx structures
+
+I've managed to get the `tmx_map` structure to be used without having to map it to a custom type. However, I'm having problems with accessing `ly_head`. An idea is to printf
+the values of each field from the c code and Bennugd code to see what can be missing.
+
+If I change the `TMX_LAYER_T` id type to be `INT` then the values are correct. I don't understand why.
+
 ## 2023-08-27: Tracing bgdi execution to understand issues with library code
 
 When a library contains errors we might get an error message that has nothing to do with the actual problem:
