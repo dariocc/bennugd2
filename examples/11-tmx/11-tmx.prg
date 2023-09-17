@@ -5,6 +5,61 @@ import "libmod_misc";
 
 #include "../common/common.h"
 
+TYPE TMX_TILE_T
+  UINT32 id;
+  INT POINTER tileset; // TODO: Implement me
+  UINT32 ul_x;
+  UINT32 ul_y;
+  INT POINTER image; // TODO: Implement me
+END
+
+TYPE TMX_L_LAYER_T
+    UINT32 POINTER guids;
+END
+
+TYPE TMX_LAYER_T
+  INT32 id=0;
+  CHAR *name;
+  DOUBLE opacity=0;
+  INT32 visible=0;
+  INT32 offsetx=0;
+  INT32 offsety=0;
+
+  INT32 type=0;
+  INT POINTER layer_content;
+
+  INT POINTER user_data; // TODO: Implement me
+  INT POINTER properties; // TODO: Implement me
+  TMX_LAYER_T POINTER next;
+END
+
+TYPE TMX_MAP_T
+  UINT32 orient=0;
+
+  UINT32 width=0;
+  UINT32 height=0;
+  UINT32 tile_width=0;
+  UINT32 tile_height=0;
+
+  UINT32 stagger_index=0;
+  UINT32 stagger_axis=0;
+  UINT32 hexsidelength=0;
+
+  UINT32 backgroundcolor=0;
+  UINT32 renderorder=0;
+
+  INT POINTER PROPERTIES;
+  INT POINTER TS_HEAD;          // TODO: Placeholder
+  TMX_LAYER_T POINTER LY_HEAD;
+
+  UINT32 tilecount=0;
+  TMX_TILE_T POINTER POINTER tiles;
+
+  INT POINTER USER_DATA;        // TODO: Placeholder
+END
+
+// ---
+
 process main()
 private
   int tilemap_id;
@@ -13,7 +68,7 @@ begin
 
 #include "../common/init_video.h"
 
-  tilemap_id = tmx_load("map.tmx", tilemap);
+  tilemap_id = tmx_load("map.tmx", &tilemap);
   say("tilemap id: " + itoa(tilemap_id));
   say("tilemap orient: " + itoa(tilemap.orient));
   say("tilemap width: " + itoa(tilemap.width));

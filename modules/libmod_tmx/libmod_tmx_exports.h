@@ -6,6 +6,7 @@
 
 #if defined(__BGDC__) || !defined(__STATIC__)
 
+/*
 char * __bgdexport( libmod_tmx, types_def ) =
     "TYPE TMX_TILE_T\n"
     "   UINT32 id;\n"
@@ -57,9 +58,10 @@ char * __bgdexport( libmod_tmx, types_def ) =
     "     UINT32 tilecount=0;\n"
     "     TMX_TILE_T POINTER POINTER tiles;\n"
 
-    "     INT POINTER USER_DATA;\n" // TODO: Implement me
+    "     INT POINTER USER_DATA;\n" // TODO: Implement me 
     "END\n"
     ;
+    */
 
 DLCONSTANT  __bgdexport( libmod_tmx, constants_def)[] =
 {
