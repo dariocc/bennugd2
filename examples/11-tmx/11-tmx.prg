@@ -7,14 +7,14 @@ import "libmod_misc";
 
 process main()
 private
-  tmx_tilemap_t tilemap;
-  int map_width;
+  int tilemap_id;
+  tmx_map_t *tilemap;
 begin
 
 #include "../common/init_video.h"
 
-  tmx_load("map.tmx", &tilemap);
-  say("tilemap id: " + itoa(tilemap.id));
+  tilemap_id = tmx_load("map.tmx", tilemap);
+  say("tilemap id: " + itoa(tilemap_id));
   say("tilemap orient: " + itoa(tilemap.orient));
   say("tilemap width: " + itoa(tilemap.width));
   say("tilemap height: " + itoa(tilemap.height));
@@ -28,7 +28,7 @@ begin
 
   write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
   
-  render_map(&tilemap);
+  //render_map(&tilemap);
 
   while( !key(_ESC) )
     if ( key(_f) )
@@ -39,7 +39,7 @@ begin
     frame;
   end
 
-  tmx_unload(tilemap.id);
+  tmx_unload(tilemap_id);
 end
 
 process render_tile(int tile_graph, int tile_x, int tile_y, int tile_w, int tile_h)
@@ -49,6 +49,7 @@ begin
   end
 end
 
+/*
 process render_l_layer(tmx_tilemap_t* tilemap, tmx_l_layer_t* l_layer)
 private
   int row, col;
@@ -65,7 +66,6 @@ begin
         say("tilemap.tiles[gid].id " + tilemap.tiles[gid].id);
         say("tilemap.tiles[gid].ul_x " + tilemap.tiles[gid].ul_x);
         say("tilemap.tiles[gid].ul_y " + tilemap.tiles[gid].ul_y);
-        /*
         say("tilemap.tiles[gid].tileset " + tilemap.tiles[gid].tileset);
         say("tilemap.tiles[gid].image " + tilemap.tiles[gid].image);
         
@@ -77,28 +77,28 @@ begin
         
         // Use gid to get the tile in the tile structure of the tilemap and render it
         render_tile(tile_graph, tile_x, tile_y, tile_w, tile_h);
-        */
       end
     end
   end
 end
+*/
 
-process render_map(tmx_tilemap_t* tilemap)
+process render_map(tmx_map_t* tilemap)
 private
-  tmx_l_layer_t l_layer;
-  tmx_layer_t next_layer;
+  tmx_layer_t layer;
 begin
-  tmx_first_layer(tilemap.id, &next_layer);
+  layer=*tilemap.ly_head;
   loop
-    say("layer.id: " + itoa(next_layer.id));
-    say("layer.visible: " + itoa(next_layer.visible));
-    say("layer.offsetx: " + itoa(next_layer.offsetx));
-    say("layer.offsety: " + itoa(next_layer.offsety));
-    say("layer.type: " + itoa(next_layer.type));
-    switch (next_layer.type)
+    say("layer.id: " + itoa(layer.id));
+    say("layer.visible: " + itoa(layer.visible));
+    say("layer.offsetx: " + itoa(layer.offsetx));
+    say("layer.offsety: " + itoa(layer.offsety));
+    say("layer.type: " + itoa(layer.type));
+    /*
+    switch (layer.type)
       case TMX_L_LAYER:
-        tmx_as_l_layer(&next_layer, &l_layer);
-        render_l_layer(tilemap, &l_layer);
+        // tmx_as_l_layer(&layer, &l_layer);
+        // render_l_layer(tilemap, &l_layer);
       end
       case TMX_L_OBJGR:
         // Implement me
@@ -114,9 +114,10 @@ begin
         break;
       end
     end
-    if (next_layer.next==0) 
+    if (layer.next==0) 
       break; 
     end
-    tmx_next_layer(&next_layer);
+    layer=*layer.next;
+    */
   end
 end
