@@ -70,23 +70,21 @@ begin
 #include "../common/init_video.h"
 
   tilemap_id = tmx_load("map.tmx", &tilemap);
+  
+  /*
   say("tilemap id: " + itoa(tilemap_id));
-  
   say("tilemap orient: " + itoa(tilemap.orient));
-  
   say("tilemap width: " + itoa(tilemap.width));
   say("tilemap height: " + itoa(tilemap.height));
   say("tilemap tile_width: " + itoa(tilemap.tile_width));
   say("tilemap tile_height: " + itoa(tilemap.tile_height));
-  
   say("tilemap stagger_index: " + itoa(tilemap.stagger_index));
   say("tilemap stagger_axis: " + itoa(tilemap.stagger_axis));
   say("tilemap hexsidelenght: " + itoa(tilemap.hexsidelength));
-  
   say("tilemap backgroundcolor: " + itoa(tilemap.backgroundcolor));
   say("tilemap renderorder: " + itoa(tilemap.renderorder));
-  
   say("tilemap tilecount: " + itoa(tilemap.tilecount));
+  */
 
   write(0,160,190,ALIGN_CENTER,"(press F for switch fullscreen/window)");
   
@@ -151,24 +149,22 @@ private
 begin
   layer=tilemap.ly_head;
   loop
-    say("Sizes");
-    say("layer.id: " + itoa(sizeof(layer.id)));
-    say("layer.name: " + itoa(sizeof(layer.name)));
-    say("layer.opacity: " + ftoa(sizeof(layer.opacity)));
-    say("layer.visible: " + itoa(sizeof(layer.visible)));
-    say("layer.offsetx: " + itoa(sizeof(layer.offsetx)));
-    say("layer.offsety: " + itoa(sizeof(layer.offsety)));
+    say("--- 11-tmx.prg ----");
+    say("layer (address): " + itoa(layer));
+    say("sizeof(layer.id): " + itoa(sizeof(layer.id)));
+    say("sizeof(layer.name): " + itoa(sizeof(layer.name)));
+    say("sizeof(layer.opacity): " + ftoa(sizeof(layer.opacity)));
+    say("sizeof(layer.visible): " + itoa(sizeof(layer.visible)));
+    say("sizeof(layer.offsetx): " + itoa(sizeof(layer.offsetx)));
+    say("sizeof(layer.offsety): " + itoa(sizeof(layer.offsety)));
     say("layer.type: " + itoa(sizeof(layer.type)));
-
-    say("Values");
     say("layer.id: " + itoa(layer.id));
-    say("layer.name: " + "unknown");
+    say("layer.name: " + "<char pointer>");
     say("layer.opacity: " + ftoa(layer.opacity));
     say("layer.visible: " + itoa(layer.visible == 0));
     say("layer.offsetx: " + itoa(layer.offsetx));
     say("layer.offsety: " + itoa(layer.offsety));
     say("layer.type: " + itoa(layer.type));
-    say("Address: " + itoa(layer));
     
     break; // TODO
 

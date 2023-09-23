@@ -34,26 +34,22 @@ static uint64_t libmod_tmx_load_map(INSTANCE * my, int64_t * params) {
         return 0;
     }
 
-    printf("Sizes\n");
-    printf("map.ly_head.id: %d\n",  sizeof map->ly_head->id);
-    printf("map.ly_head.name: %d\n", sizeof map->ly_head->name);
-    printf("map.ly_head.opacity: %d\n", sizeof map->ly_head->opacity);
-    printf("map.ly_head.visible: %d\n", sizeof map->ly_head->visible);
-    printf("map.ly_head.offsetx: %d\n", sizeof map->ly_head->offsetx);
-    printf("map.ly_head.offsety: %d\n", sizeof map->ly_head->offsety);
-    printf("map.ly_head.type: %d\n", sizeof map->ly_head->type);
-
-    printf("Values\n");
-    printf("map.ly_head.id: %d\n",  map->ly_head->id);
-    printf("map.ly_head.name: %s\n",  map->ly_head->name);
-    printf("map.ly_head.opacity: %f\n",  map->ly_head->opacity);
-    printf("map.ly_head.visible: %d\n",  map->ly_head->visible);
-    printf("map.ly_head.offsetx: %d\n",  map->ly_head->offsetx);
-    printf("map.ly_head.offsety: %d\n",  map->ly_head->offsety);
-    printf("map.ly_head.type: %d\n",  map->ly_head->type);
-    printf("map.tilecount: %d\n",  map->tilecount);
-
-    printf("Address: %i\n", map->ly_head);
+    printf("--- libmod_tmx.c ---\n");
+    printf("map.ly_head (addres): %i\n", map->ly_head);
+    printf("sizeof map->ly_head->id: %d\n",  sizeof map->ly_head->id);
+    printf("sizeof map->ly_head->name: %d\n", sizeof map->ly_head->name);
+    printf("sizeof map->ly_head->opacity: %d\n", sizeof map->ly_head->opacity);
+    printf("sizeof map->ly_head->visible: %d\n", sizeof map->ly_head->visible);
+    printf("sizeof map->ly_head->offsetx: %d\n", sizeof map->ly_head->offsetx);
+    printf("sizeof map->ly_head->offsety: %d\n", sizeof map->ly_head->offsety);
+    printf("sizeof map->ly_head->type: %d\n", sizeof map->ly_head->type);
+    printf("map->ly_head->id: %d\n",  map->ly_head->id);
+    printf("map->ly_head->name: %s\n",  map->ly_head->name);
+    printf("map->ly_head->opacity: %f\n",  map->ly_head->opacity);
+    printf("map->ly_head->visible: %d\n",  map->ly_head->visible);
+    printf("map->ly_head->offsetx: %d\n",  map->ly_head->offsetx);
+    printf("map->ly_head->offsety: %d\n",  map->ly_head->offsety);
+    printf("map->ly_head->type: %d\n",  map->ly_head->type);
 
     tmx_last_map_id++;
     tmx_maps[tmx_last_map_id] = map;
