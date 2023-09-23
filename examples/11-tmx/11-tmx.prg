@@ -19,6 +19,7 @@ END
 
 TYPE TMX_LAYER_T
   INT id=0;
+  
   CHAR POINTER name;
   DOUBLE opacity=0;
   INT32 visible=0;
@@ -169,15 +170,6 @@ begin
     say("layer.type: " + itoa(layer.type));
     say("Address: " + itoa(layer));
     
-    say("Values");
-    say("tilemap.ly_head.id: " + itoa(tilemap.ly_head.id));
-    say("tilemap.ly_head.name: " + "unknown");
-    say("tilemap.ly_head.opacity: " + ftoa(tilemap.ly_head.opacity));
-    say("tilemap.ly_head.visible: " + itoa(tilemap.ly_head.visible == 0));
-    say("tilemap.ly_head.offsetx: " + itoa(tilemap.ly_head.offsetx));
-    say("tilemap.ly_head.offsety: " + itoa(tilemap.ly_head.offsety));
-    say("tilemap.ly_head.type: " + itoa(tilemap.ly_head.type));
-
     break; // TODO
 
     switch (layer.type)
